@@ -1,0 +1,53 @@
+{%  extends 'base.html.twig' %}
+
+{% block container %}
+    <div class="container">
+        <div class="p-5 mb-4 rounded-3 d-flex flex-row flex-wrap mb-3 justify-content-between">
+    {% for starship in starships_collection %}
+        <div class="card mb-3" style="width: 23rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ starship.name }}</h5>
+                <p class="card-text">
+                    <b>Model:</b> {{ starship.model }} </br>
+                    <b>Manufacturer:</b> {{ starship.manufacturer }} </br>
+                    <b>Cost:</b> {{ starship.cost_in_credits|default("-") }} </br>
+                    <b>Length:</b> {{ starship.length }} </br>
+                    <b>Crew:</b> {{ starship.crew }} </br>
+                    <b>Passengers:</b> {{ starship.passengers }} </br>
+                    <b>Consumables:</b> {{ starship.consumables }} </br>
+                    <b>Hyperdrive Rating:</b> {{ starship.hyperdrive_rating }} </br>
+
+                    <b>Pilots:</b> </br>
+                    <ol>
+                        {% for pilot in starship.pilots %}
+                            {% set pilot = fetchRelation(pilot) %}
+
+                            <li>
+                                Name: {{ pilot.name }} </br>
+                                Species: </br>
+                                <ul>
+                                    {% for specie in pilot.species %}
+                                        {% set specie = fetchRelation(specie) %}
+
+                                        <li> {{ specie.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+
+                        {% endfor %}
+                    </ol>
+
+                    <b>Movies:</b> </br>
+                    <ol>
+                        {% for movie in starship.films %}
+                            {% set movie = fetchRelation(movie) %}
+                            <li>Title: {{ movie.title }}</li>
+                        {% endfor %}
+                    </ol>
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock %}
